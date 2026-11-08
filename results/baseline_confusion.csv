@@ -1,0 +1,13 @@
+,pred:order_status,pred:delivery_delay,pred:cancel_order,pred:refund_request,pred:missing_item,pred:wrong_item,pred:payment_failed,pred:promo_code_issue,pred:change_address,pred:account_help,pred:talk_to_agent,pred:out_of_scope
+true:order_status,308,18,1,4,2,3,1,0,4,0,6,178
+true:delivery_delay,51,144,7,2,3,29,3,0,4,0,11,292
+true:cancel_order,32,19,214,4,0,2,1,0,1,0,5,123
+true:refund_request,5,4,9,217,4,1,13,0,3,0,4,181
+true:missing_item,10,2,4,5,81,34,2,0,0,0,6,148
+true:wrong_item,4,0,5,2,2,88,0,0,2,0,6,100
+true:payment_failed,5,4,3,8,1,1,86,0,0,0,6,206
+true:promo_code_issue,3,1,1,0,1,0,4,0,5,0,4,188
+true:change_address,3,0,3,3,1,15,1,0,118,0,1,80
+true:account_help,3,1,3,1,2,1,0,0,14,0,9,178
+true:talk_to_agent,1,2,3,2,0,0,1,0,1,0,92,142
+true:out_of_scope,4,2,7,5,2,4,1,0,4,0,4,345
