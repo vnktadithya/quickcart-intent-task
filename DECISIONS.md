@@ -71,3 +71,23 @@ One entry per decision. No entry without evidence.
 - **Decision:** checked_intent = Adi's `my_label` where reviewed, else the consensus (silver = both models). Column `human_checked` marks which. Used for model selection from Phase 4; weights kept for re-weighting to the dev mix.
 - **Evidence:** silver agrees with it on 88.0% [83.4, 91.5] (`results/label_noise.csv`).
 - **What would change it:** evidence that consensus rows contain errors (random audit of a few of the 200).
+
+## D8 — Taxonomy v2: which edits, and are the small ones worth keeping?
+- **Phase:** 3
+- **Question:** what to change in the taxonomy, and does it help?
+- **Options considered:** (a) fill only the two empty intents; (b) cleanups only; (c) both.
+- **Evidence:** `results/taxonomy_before_after.csv` (silver dev macro-F1, thr 0.10, train-only vectoriser): v1 0.4152; fill-only 0.5118; cleanups-only 0.4219; both 0.5183. Checked dev (n=250): 0.4437 / 0.5584 / 0.4680 / 0.5827.
+- **Decision:** keep both. Filling the empty intents is the real gain; the cleanups add 0.007 / 0.025 (checked) and are required by rules 1 and 4 and by the duplicate-text defect (`results/eval_bugs.md` #6), so they stay even though their measured effect is small. Full edit list with reasons: `results/taxonomy_changes.csv`.
+- **What would change it:** a learned model (Phase 4) that does not use taxonomy examples makes the taxonomy matter only for the matcher and the LLM prompts.
+
+## D9 — New examples are hand-written paraphrases, not copied from data
+- **Phase:** 3
+- **Question:** where do the 16 examples for promo_code_issue / account_help come from?
+- **Options considered:** copy train rows; pick train rows the CV model agrees with; write paraphrases.
+- **Evidence:** 25% of dev rows already contain a taxonomy example verbatim (`results/eval_bugs.md` #7); copying train rows would raise that overlap and inflate matcher scores. Train rows for these two classes are also the noisiest (CV flag rate 61% / 71%, `results/cv_disagreement_by_class.csv`).
+- **Decision:** write paraphrases in the same style (typos removed, some Hinglish), informed by CV-agreed train rows. Disclosed in NOTES.md.
+- **What would change it:** an audit showing the paraphrases are unrepresentative of the test phrasing.
+
+## D10 — Intent-distance measure
+- **Phase:** 3
+- **Decision:** cosine between TF-IDF centroids (taxonomy examples, and train rows per class), compared with confusion by Spearman rank correlation. Rho 0.32-0.48 for the matcher, -0.07 for CV confusion (`results/intent_distance_correlation.csv`). Used for interpretation only, no model choice depends on it.

@@ -1,0 +1,5 @@
+comparison,pairs,spearman_rho,p_value
+taxonomy_v1 sim vs matcher_v1 confusion (45 pairs without the 2 empty intents),45,0.341,0.0217
+taxonomy_v2 sim vs matcher_v2 confusion (66 pairs),66,0.316,0.0099
+train-centroid sim vs CV confusion on train (66 pairs),66,-0.073,0.562
+train-centroid sim vs matcher_v2 confusion (66 pairs),66,0.484,0.0

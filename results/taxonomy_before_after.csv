@@ -1,0 +1,15 @@
+experiment,eval_set,n,accuracy,macro_f1,zero_recall_classes,share_predicted_oos,f1_order_status,f1_delivery_delay,f1_cancel_order,f1_refund_request,f1_missing_item,f1_wrong_item,f1_payment_failed,f1_promo_code_issue,f1_change_address,f1_account_help,f1_talk_to_agent,f1_out_of_scope
+"A v1 as shipped (vectoriser on train+dev, thr 0.10)",silver_dev_4000,4000,0.4233,0.4105,promo_code_issue;account_help,0.5403,0.646,0.388,0.648,0.625,0.414,0.455,0.397,0.0,0.619,0.0,0.462,0.272
+"A v1 as shipped (vectoriser on train+dev, thr 0.10)",checked_dev_250,250,0.468,0.4399,promo_code_issue;account_help,0.552,0.71,0.341,0.737,0.739,0.235,0.417,0.444,0.0,0.692,0.0,0.64,0.323
+"B v1, vectoriser on train only, thr 0.10",silver_dev_4000,4000,0.4303,0.4152,promo_code_issue;account_help,0.525,0.652,0.395,0.652,0.634,0.416,0.456,0.408,0.0,0.624,0.0,0.47,0.275
+"B v1, vectoriser on train only, thr 0.10",checked_dev_250,250,0.472,0.4437,promo_code_issue;account_help,0.536,0.698,0.341,0.757,0.766,0.235,0.417,0.483,0.0,0.692,0.0,0.615,0.319
+"C v2, vectoriser on train only, thr 0.10",silver_dev_4000,4000,0.479,0.5183,none,0.4743,0.639,0.355,0.672,0.633,0.543,0.464,0.391,0.603,0.632,0.514,0.476,0.297
+"C v2, vectoriser on train only, thr 0.10",checked_dev_250,250,0.54,0.5827,none,0.468,0.667,0.39,0.789,0.766,0.5,0.4,0.444,0.667,0.72,0.667,0.64,0.342
+"D v1, train-only, no threshold (argmax)",silver_dev_4000,4000,0.5533,0.4797,promo_code_issue;account_help,0.0895,0.606,0.528,0.666,0.69,0.47,0.522,0.604,0.0,0.589,0.0,0.565,0.516
+"D v1, train-only, no threshold (argmax)",checked_dev_250,250,0.6,0.5084,promo_code_issue;account_help,0.076,0.738,0.554,0.7,0.794,0.385,0.533,0.636,0.0,0.667,0.0,0.595,0.5
+"E v2, train-only, no threshold (argmax)",silver_dev_4000,4000,0.6015,0.5952,none,0.0737,0.614,0.537,0.696,0.706,0.59,0.538,0.577,0.679,0.636,0.46,0.579,0.529
+"E v2, train-only, no threshold (argmax)",checked_dev_250,250,0.664,0.657,none,0.064,0.683,0.585,0.75,0.8,0.609,0.522,0.611,0.765,0.828,0.552,0.647,0.533
+"F ablation: v1 + fill the 2 empty intents only, thr 0.10",silver_dev_4000,4000,0.476,0.5118,none,0.4645,0.649,0.393,0.653,0.629,0.425,0.456,0.41,0.607,0.632,0.514,0.473,0.301
+"F ablation: v1 + fill the 2 empty intents only, thr 0.10",checked_dev_250,250,0.528,0.5584,none,0.464,0.689,0.341,0.757,0.766,0.235,0.417,0.483,0.667,0.72,0.667,0.615,0.345
+"G ablation: v2 cleanups only (2 intents left empty), thr 0.10",silver_dev_4000,4000,0.4335,0.4219,promo_code_issue;account_help,0.5343,0.641,0.355,0.671,0.64,0.533,0.464,0.389,0.0,0.624,0.0,0.474,0.272
+"G ablation: v2 cleanups only (2 intents left empty), thr 0.10",checked_dev_250,250,0.484,0.468,promo_code_issue;account_help,0.54,0.677,0.39,0.789,0.766,0.5,0.4,0.444,0.0,0.692,0.0,0.64,0.317

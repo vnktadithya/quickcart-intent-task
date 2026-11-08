@@ -1,0 +1,24 @@
+intent,example,action,reason
+delivery_delay,where's my food,removed,duplicate of order_status example; a plain 'where is it' with no complaint is order_status (rule 4)
+wrong_item,my order is incomplete,removed,duplicate of missing_item example; incomplete = something absent -> missing_item (rule 4)
+wrong_item,an item is missing from my order,moved to missing_item,"absent item is missing_item, not wrong_item (rule 4)"
+delivery_delay,"cancel my food order, taking too long",moved to cancel_order,first request is the cancellation -> cancel_order (rules 1 and 3: not delivered)
+payment_failed,"charged twice, please refund one payment",removed,"the actual ask is a refund and the complaint comes first: ambiguous under rules 1/4, dropped rather than guessed"
+missing_item,an item is missing from my order,added (moved from wrong_item),absent item is missing_item (rule 4)
+cancel_order,"cancel my food order, taking too long",added (moved from delivery_delay),"first request is the cancellation (rules 1, 3)"
+promo_code_issue,my coupon code is not working,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,the discount was not applied to my order,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,promo code says invalid or expired,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,where do I enter my promo code,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,free delivery offer is not showing in the final amount,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,promo kaam nahi kar raha,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,I applied a coupon but the total did not change,added,intent had no examples (eval_bugs.md #4)
+promo_code_issue,my first order discount is missing,added,intent had no examples (eval_bugs.md #4)
+account_help,I forgot my password,added,intent had no examples (eval_bugs.md #4)
+account_help,otp is not coming for login,added,intent had no examples (eval_bugs.md #4)
+account_help,how do I delete my account,added,intent had no examples (eval_bugs.md #4)
+account_help,my account has been locked,added,intent had no examples (eval_bugs.md #4)
+account_help,update my phone number on my profile,added,intent had no examples (eval_bugs.md #4)
+account_help,the app keeps logging me out,added,intent had no examples (eval_bugs.md #4)
+account_help,my saved cards are missing from my account,added,intent had no examples (eval_bugs.md #4)
+account_help,mera password reset nahi ho raha,added,intent had no examples (eval_bugs.md #4)

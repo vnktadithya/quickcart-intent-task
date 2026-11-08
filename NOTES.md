@@ -75,6 +75,49 @@ These were found by running the starter code during planning. They are not evide
 
 **Where the work went wrong.** My first plan for Phase 2 leaned on a local 7B model without checking that the README allows hosted open-weights APIs; Adi caught it (prompt 6). The Groq 401s were a stale `.env` file on disk, not a code bug (prompt 9). Twice a shell heredoc failed on quoting and I moved the code into files.
 
+## Phase 3 — Taxonomy v2
+**What was done.**
+- `src/build_taxonomy_v2.py` -> `data/taxonomy_v2.json` and `results/taxonomy_changes.csv` (every edit with its reason). Edits: 3 examples removed (the duplicate "where's my food" under delivery_delay; the duplicate "my order is incomplete" under wrong_item; the ambiguous "charged twice, please refund one payment" under payment_failed), 2 moved to the intent the rules give ("an item is missing from my order": wrong_item -> missing_item; "cancel my food order, taking too long": delivery_delay -> cancel_order), 16 examples added for the two empty intents (8 each), plus a one-line description and a "not this" note per intent for humans / LLM prompts (the TF-IDF matcher ignores them).
+- `src/matcher.py`: the starter's method (TF-IDF centroid per intent, cosine, threshold) with the taxonomy file, vectoriser corpus and threshold as arguments. `baseline/` is untouched. Its experiment A reproduces the starter exactly (0.4233 / 0.4105).
+- `src/taxonomy_eval.py` -> `results/taxonomy_before_after.csv`, `results/intent_distance.csv`, `results/intent_distance_correlation.csv`.
+
+**Before / after (`results/taxonomy_before_after.csv`; same method, only the taxonomy changes).**
+| experiment | silver dev macro-F1 (n=4000) | checked dev macro-F1 (n=250) | zero-recall classes |
+|---|---|---|---|
+| A v1 as shipped (vectoriser on train+dev, thr 0.10) | 0.4105 | 0.4399 | promo_code_issue, account_help |
+| B v1, vectoriser on train only, thr 0.10 | 0.4152 | 0.4437 | same two |
+| **C v2**, train-only, thr 0.10 | **0.5183** | **0.5827** | none |
+| F ablation: v1 + fill the 2 empty intents only | 0.5118 | 0.5584 | none |
+| G ablation: v2 cleanups only (2 intents left empty) | 0.4219 | 0.4680 | same two |
+| D v1, train-only, no threshold (argmax) | 0.4797 | 0.5084 | same two |
+| E v2, train-only, no threshold (argmax) | 0.5952 | 0.6570 | none |
+- Filling the two empty intents does almost all of the work: B->F +0.097, B->G +0.007. The 3 removals + 2 moves are justified by the rules but are worth less than one point of macro-F1 on their own.
+- v2 F1 for the newly filled classes (silver dev, thr 0.10): promo_code_issue 0.000 -> 0.603, account_help 0.000 -> 0.514. Cost: delivery_delay F1 0.395 -> 0.355 and payment_failed 0.408 -> 0.391, because each lost an example (delivery_delay and payment_failed now have 8 and 7).
+- The threshold is still the biggest problem the taxonomy cannot fix: at 0.10, 47% of dev rows are still sent to out_of_scope under v2, vs 7% with plain argmax (D, E). Macro-F1 under argmax is 0.595. This is a diagnostic only: the real threshold is decided in Phase 5 with a precision-recall sweep, not by looking at this table.
+- Checked-set (n=250) numbers move the same way as silver-dev but carry roughly +-6 points of uncertainty and 200 of the 250 rows are consensus (easy) rows.
+
+**Intent distance vs confusion (`results/intent_distance.csv`, `..._correlation.csv`).** Distance = cosine similarity between intent centroids (taxonomy examples, or the mean of all train rows per class) in TF-IDF space. Confusion rate of a pair = (a->b + b->a errors) / (n_a + n_b).
+| comparison | pairs | Spearman rho | p |
+|---|---|---|---|
+| taxonomy-v1 similarity vs matcher confusion (no threshold), excluding the 2 empty intents | 45 | 0.34 | 0.02 |
+| taxonomy-v2 similarity vs matcher confusion | 66 | 0.32 | 0.01 |
+| train-centroid similarity vs matcher confusion | 66 | 0.48 | <0.001 |
+| train-centroid similarity vs CV confusion on train | 66 | -0.07 | 0.56 |
+- Examples of what the matrix shows: order_status <-> delivery_delay was the most similar non-empty pair in v1 (0.26; 0.12 after v2), missing_item <-> wrong_item 0.196 -> 0.056 after removing the duplicates, and its matcher confusion fell 14.4% -> 6.6%. change_address <-> account_help is the closest pair by train data (0.80) and the top CV confusion (8.1%): the two intents are semantically adjacent (address and phone/profile edits) and a boundary rule for them is needed ("address = change_address; phone/name/profile = account_help", already in the v2 "not this" notes).
+- So taxonomy similarity explains part of the matcher's confusions (rho about 0.3-0.5, weak-to-moderate), but train-centroid similarity does NOT predict a trained model's confusions (rho -0.07). My guess, not verified: train centroids are all close (0.4-0.8) because the messages share generic filler words, and CV confusions are driven by label noise rather than geometry.
+
+**Concepts in plain words.**
+- *Ablation:* undo one part of a change and re-measure, to see which part earned the gain (here F and G split v2 into its two kinds of edit).
+- *Centroid:* the average vector of an intent's examples. Cosine similarity between two centroids says how alike the two intents' wording is.
+- *Spearman rho:* correlation of ranks, in -1..1; 0 means no relation. With 45-66 pairs, 0.3 is detectable but weak.
+
+**Limits / honesty.**
+- The 16 new examples are my own paraphrases. I wrote them after reading train rows for those two classes that the CV model agreed with (selected as the cleaner ones), and earlier in Phase 2 I had displayed some dev review rows, so their wording may echo dev phrasing (e.g. coupon applied but total unchanged). No dev/test row was copied. Because this tilts toward the data's style, the large gain for the two classes may be optimistic for truly new phrasing. Check: Phase 4's learned models do not depend on these examples.
+- The "contains-taxonomy-example" slice was not recomputed for v2.
+- 8 examples per new intent is a small sample; the other intents have 6-14.
+
+**Where the AI was wrong.** I wrote a garbled import line in `src/build_taxonomy_v2.py` before running it (caught by reading it back, fixed before the first run). Earlier I called the heredoc failures quoting errors; the fix was moving code into files.
+
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)
 

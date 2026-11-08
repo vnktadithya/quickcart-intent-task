@@ -103,3 +103,8 @@ a sample in `dev_sample.csv` was labelled wrong and corrected it
 > made the requried changes. proceed for the next steps.
 
 Note: TODO (Adi)
+
+## 12 - Claude Code (VS Code), Nov 8
+> go
+
+Note: TODO (Adi)
