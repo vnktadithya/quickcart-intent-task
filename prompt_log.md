@@ -98,28 +98,33 @@ The key worked now, and the two models Qwen3.8 - 27B and GPT-OSS - 120B are used
 a sample in `dev_sample.csv` was labelled wrong and corrected it
 
 
-
 ## 11 - Claude Code (VS Code), Nov 8
 > made the requried changes. proceed for the next steps.
 
-Note: TODO (Adi)
+### Notes:
+complete phase 2 implementation, check the wilson interval with the help of hand labelled examples and proceed for phase 3 implementation.
+
 
 ## 12 - Claude Code (VS Code), Nov 8
 > go
 
-Note: TODO (Adi)
+### Notes:
+created new taxanomy by filling the missing intents (`promo_code_issue`, `account_help`) and the performance increased as compared to the actual taxanomy
 
 ## 13 - Claude Code (VS Code), Nov 8
 > go
 
-Note: TODO (Adi)
+### Notes:
+performance comparision of the local Log-Reg + TF-IDF with 4 embedding models (MiniLM-L6, BGE-small, E5-small, multilingual MiniLM). 
 
 ## 14 - Claude Code (VS Code), Nov 8
 > go
 
-Note: TODO (Adi)
+### Notes:
+start pahse 5 and test the model across different variants to define the `out_of_scope` better.
 
 ## 15 - Claude Code (VS Code), Nov 8
 > go phase 7.
 
-Note: TODO (Adi)
+### Notes:
+predictions on test set and check the latency of the final system.
