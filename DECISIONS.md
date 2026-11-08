@@ -91,3 +91,20 @@ One entry per decision. No entry without evidence.
 ## D10 — Intent-distance measure
 - **Phase:** 3
 - **Decision:** cosine between TF-IDF centroids (taxonomy examples, and train rows per class), compared with confusion by Spearman rank correlation. Rho 0.32-0.48 for the matcher, -0.07 for CV confusion (`results/intent_distance_correlation.csv`). Used for interpretation only, no model choice depends on it.
+
+## D11 — Final model family: word+char TF-IDF + logistic regression
+- **Phase:** 4
+- **Question:** which model goes into production (4 cores, 15 GB, one message at a time)?
+- **Options considered:** taxonomy matcher v2; TF-IDF word+char LR; MiniLM-L6, BGE-small, E5-small, multilingual MiniLM, each + LR.
+- **Evidence:** `results/experiments.csv`: checked macro-F1 0.9013 [0.849, 0.937], highest; silver dev 0.8448, highest by 4-6 points; p50 2.24 ms vs 10-18 ms for embeddings (`results/latency.csv`). The best embedding (BGE-small) is statistically tied on the 250 checked rows (delta -0.009 [-0.057, +0.044]) but 8x slower and 4 points lower on silver dev. Selection rule from the plan: highest checked macro-F1 under about 20 ms; embeddings had to beat TF-IDF by more than the interval, and none did.
+- **Decision:** TF-IDF word+char LR is the working model for Phases 5-7. Embeddings are not used.
+- **What would change it:** a tuned or fine-tuned embedding that beats TF-IDF on checked labels by more than the interval; real chat data with fewer template phrases.
+
+## D12 — Hyper-parameters stay fixed
+- **Phase:** 4
+- **Decision:** C=10 for every logistic regression; TF-IDF word (1,2)/min_df 2 + char_wb (2,5)/min_df 3; no search. Reason: the only trustworthy labels are 250 rows, and tuning on them would overfit the selection; silver dev alone must not choose (CLAUDE.md).
+- **What would change it:** a cross-validated search inside train (silver) with the final choice still checked on the checked set; listed as a next step.
+
+## D13 — Embedding models and their licences
+- **Phase:** 4
+- **Evidence:** `results/embedding_models.csv` (licence read from the Hugging Face model card metadata): all-MiniLM-L6-v2 apache-2.0; bge-small-en-v1.5 mit; e5-small-v2 mit; paraphrase-multilingual-MiniLM-L12-v2 apache-2.0. Models were only used offline in experiments and are not in the final system.

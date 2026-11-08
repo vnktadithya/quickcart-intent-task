@@ -118,6 +118,39 @@ These were found by running the starter code during planning. They are not evide
 
 **Where the AI was wrong.** I wrote a garbled import line in `src/build_taxonomy_v2.py` before running it (caught by reading it back, fixed before the first run). Earlier I called the heredoc failures quoting errors; the fix was moving code into files.
 
+## Phase 4 — Model comparison
+**What was done.** Same train data (30,000 silver rows), same two eval sets (silver dev 4,000; checked dev 250), same metric code (`src/evaluate.py`), fixed hyper-parameters for every model (nothing tuned on dev or checked). Scripts: `src/models.py`, `src/embed_cache.py` (embeds train + dev once; test is not embedded), `src/run_models.py`, `src/latency.py`. Outputs: `results/experiments.csv`, `results/per_class_<model>.csv` (7 files), `results/experiments_slices.csv`, `results/latency.csv`, `results/embedding_models.csv`.
+
+**Results.**
+| model | silver dev macro-F1 | checked macro-F1 [95% CI] | checked delta vs TF-IDF [95% CI] | p50 / p95 ms (4 threads) |
+|---|---|---|---|---|
+| taxonomy matcher v2, thr 0.10 | 0.5183 | 0.5827 [0.504, 0.644] | -0.319 [-0.400, -0.238] | 0.92 / 1.45 |
+| taxonomy matcher v2, argmax | 0.5952 | 0.6570 [0.588, 0.716] | -0.244 [-0.316, -0.176] | (same as above) |
+| **word+char TF-IDF + LR** | **0.8448** | **0.9013 [0.849, 0.937]** | 0 | **2.24 / 3.19** |
+| MiniLM-L6 + LR | 0.7955 | 0.8801 [0.829, 0.916] | -0.021 [-0.070, +0.032] | 10.08 / 13.77 |
+| BGE-small + LR | 0.8042 | 0.8926 [0.842, 0.932] | -0.009 [-0.057, +0.044] | 17.68 / 25.20 |
+| E5-small-v2 + LR | 0.7924 | 0.8554 [0.801, 0.901] | -0.046 [-0.094, +0.000] | 18.32 / 26.41 |
+| multilingual MiniLM + LR | 0.7808 | 0.8743 [0.823, 0.912] | -0.027 [-0.071, +0.022] | 17.43 / 25.05 |
+- Learning from the 30,000 train rows beats matching against taxonomy examples by +0.25 to +0.32 macro-F1 on checked (CI excludes 0): same compute class, far more signal.
+- No embedding model beats TF-IDF+LR. On the checked set the gaps to TF-IDF are inside the interval (BGE-small -0.009 is statistically indistinguishable; E5 is borderline), but on silver dev (n=4000, much tighter) all four are 4-6 points worse (0.78-0.80 vs 0.845), and they are 4-8x slower. Silver-dev gaps are partly "who reproduces the silver errors better", so I use them as supporting, not deciding, evidence (D0).
+- Slices (silver dev accuracy, `results/experiments_slices.csv`): TF-IDF is 0.848 on Hinglish vs 0.854 English-only: char n-grams cope with romanised Hindi. The multilingual MiniLM is the WORST on Hinglish (0.758 vs 0.804 English-only), so "multilingual" did not help here. Multi-request messages are hardest for all models (TF-IDF 0.780 vs 0.875 single-request); long messages too (0.804). On "contains a taxonomy example" vs not, TF-IDF is 0.843 vs 0.857, so it does not lean on the taxonomy-overlap shortcut (the matcher does: 0.764 vs 0.547).
+- Per class (TF-IDF, silver dev F1): lowest are `account_help` 0.750 (recall 0.651), `promo_code_issue` 0.821, `talk_to_agent` 0.818, `payment_failed` 0.822. The two classes that were dead in the starter are the weakest learned classes: they have only 1.1-1.3% of train rows, and Phase 2 showed their train labels are the noisiest.
+
+**Concepts in plain words.**
+- *Frozen embedding + logistic regression:* the transformer turns a sentence into 384 numbers and is not updated; only a linear classifier on top is trained. Fast to train (6-10 s), but the embedding was built to capture general meaning, not the difference between "late" and "missing" in this data.
+- *Why TF-IDF can win here:* the intents are separated by specific words and phrases ("refund", "coupon", "otp"). TF-IDF with character n-grams keys on exactly those, including misspellings; a general-purpose embedding blurs them. This is likely helped by the data being synthetic and template-based, so the finding may not transfer to real chat logs.
+- *Paired bootstrap:* resample the 250 rows with replacement 1,000 times; for each resample compute both models' macro-F1; the spread of the difference is the interval. Same resample for both models, so row difficulty cancels.
+
+**Latency details.** Protocol from CLAUDE.md: OMP/MKL threads = 4, `torch.set_num_threads(4)`, one message per call, 20 warm-up, 500 timed dev messages, model already loaded (loading is not in the span). Hardware: 12th Gen Intel Core i5-1235U (10 cores / 12 threads: 2 performance + 8 efficiency), 15.7 GB RAM, Windows, no GPU. `lscpu` does not exist on Windows; CPU model read via Windows WMI instead. This is a laptop with 4 threads allowed, NOT a dedicated 4-core cloud box; I have not measured the target box. My unmeasured estimate for a typical 4-vCPU cloud core is 1.5-2x slower: TF-IDF about 3-5 ms, BGE-small about 30-40 ms. Memory per process after load is recorded per model in `results/latency.csv` notes.
+
+**Limits.**
+- 200 of the 250 checked rows are consensus (easy) rows, so checked macro-F1 (0.90) is higher than silver dev (0.845) and likely optimistic about hard messages; the comparison between models is still paired on the same rows.
+- All models are trained on silver train labels and inherit its errors; Phase 6 (optional) tests whether cleaning labels helps more than a bigger model.
+- No hyper-parameter search. A higher or lower C, class weights, or fine-tuning might change the ranking; I did not try them. Class weighting is the obvious cheap test for `account_help` / `promo_code_issue`.
+- Hub connection resets appeared during benchmark start-up ("Could not reach the Hub"): the models loaded from the local cache; metadata checks failed only.
+
+**Where the AI was wrong.** Nothing wrong caught in this phase yet.
+
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)
 
