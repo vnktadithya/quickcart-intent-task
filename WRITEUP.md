@@ -1,4 +1,4 @@
-# QuickCart intent task: write-up (Adithya)
+# QuickCart intent task: write-up
 
 **Result.** A 3.5 MB word+char TF-IDF + logistic-regression model, with `out_of_scope` as a trained class, lifts macro-F1 from a true **0.41** (starter reports 0.446) to **0.845** on silver dev and **0.901** on a hand-checked sample, at **2.3 ms per message** on 4 threads. Every number comes from a script in `src/` and a CSV in `results/` (fixed seeds); reasoning is in `NOTES.md` and `DECISIONS.md`.
 
