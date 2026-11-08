@@ -118,3 +118,8 @@ Note: TODO (Adi)
 > go
 
 Note: TODO (Adi)
+
+## 15 - Claude Code (VS Code), Nov 8
+> go phase 7.
+
+Note: TODO (Adi)

@@ -39,6 +39,11 @@ def hardware():
 
 
 def build(model):
+    if model == "final_system_saved":      # the exact file used for the submission, loaded from disk like production would
+        from src.final_model import MODEL_PATH, load
+        t0 = time.perf_counter()
+        m = load()
+        return m, f"FINAL SYSTEM from {MODEL_PATH.name} ({MODEL_PATH.stat().st_size/2**20:.1f} MB on disk), cold load {time.perf_counter()-t0:.2f}s"
     train = pd.read_csv(DATA / "train.csv")
     if model == "tfidf_word_char_lr":
         return TfidfLR().fit(train.utterance.tolist(), train.intent.tolist()), "word+char TF-IDF"

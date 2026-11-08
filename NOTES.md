@@ -185,6 +185,29 @@ The threshold t is chosen ONLY on train out-of-fold predictions (5-fold, seed 42
 
 **Where the AI was wrong.** Nothing wrong caught in this phase yet.
 
+## Phase 7 — Predict and benchmark (Phase 6, the optional label-cleaning step, was skipped on Adi's call)
+**What was done.**
+- `src/final_model.py`: the final system = word+char TF-IDF + logistic regression, 12 classes with `out_of_scope` as a trained class (D11, D12, D14). Trained on `data/train.csv` only (silver labels); saved as `models/final_tfidf_lr.joblib` (3.5 MB; not meant for git, re-created by `python -m src.final_model`).
+- `src/predict.py --name adithya` -> `submissions/adithya_predictions.csv` (3,000 rows). Test was opened here only to predict; no labels exist, none were inferred, nothing was tuned on it. Before predicting it re-scores the saved model on held-out dev: silver dev accuracy 0.8532, macro-F1 0.8448; checked accuracy 0.9160, macro-F1 0.9013 (identical to the Phase 4 row, so the submitted model is the one reported).
+- `src/check_submission.py`: format check (columns exactly `id,intent`; 3,000 rows; ids = `test.csv` ids in the same order; no duplicates or blanks; all intents among the 12 taxonomy names). The submission passes. I also fed it two broken files (1,999 rows; wrong column name): it fails both with a clear message and a non-zero exit code. `data/test.csv` is unchanged against git.
+
+**Latency of the final system** (`results/latency.csv`, model `final_system_saved`; protocol from CLAUDE.md: 4 threads, one message per call, 20 warm-up, 500 timed dev messages, loaded from disk, timed span = cleaning + vectorising + classifier):
+- Three runs: p50 2.27-2.68 ms, p95 3.03-3.59 ms (the csv holds the last run: 2.27 / 3.17). The 15% run-to-run spread is laptop noise (efficiency cores, background load).
+- Cold load of the model file 0.10 s; 3.5 MB on disk. Process memory in the benchmark was 300 MB, but that includes PyTorch which `latency.py` imports only to set the thread count; the production process needs scikit-learn and numpy only, so real memory should be lower (not measured separately).
+- Hardware: 12th Gen Intel Core i5-1235U (10 cores / 12 threads), 15.7 GB RAM, Windows, no GPU; 4 threads allowed via OMP/MKL env vars. This is not a dedicated 4-core box. Unmeasured estimate for a typical 4-vCPU cloud machine: 3-5 ms per message (assuming 1.5-2x slower cores). Memory is far below the 15 GB ceiling (hundreds of MB at most).
+
+**What runs where.**
+- Experiments only: sentence-embedding models (CPU, this laptop, offline; MiniLM, BGE-small, E5-small, multilingual MiniLM), and two hosted open-weights LLMs on Groq for labelling (`openai/gpt-oss-120b`, `qwen/qwen3.8-27b`; about 500 calls on 250 repo messages, free tier, rate-limited to roughly 8 rows per minute per model, raw outputs in `results/llm_raw/`).
+- Production: the single 3.5 MB TF-IDF+LR file on CPU. No GPU, no network call, no LLM. If an LLM were used at inference it would add a network round trip (hundreds of ms to seconds), a per-call cost, rate limits, and an outside dependency; none of that is needed for this accuracy.
+
+**What the predicted test distribution says (descriptive; no labels used).** Predicted counts: order_status 417, delivery_delay 403, refund_request 331, out_of_scope 305, cancel_order 301, payment_failed 250, missing_item 225, change_address 185, talk_to_agent 185, wrong_item 145, promo_code_issue 134, account_help 119. The two smallest predicted classes are the two the model is weakest on in dev (account_help recall 0.65), so I expect the same under-prediction on test. I cannot verify this without the hidden labels.
+
+**Reproduce everything (fixed seeds).** `python -m baseline.eval` (starter) -> `python -m src.evaluate` -> `python -m src.cv_flags` -> `python -m src.sample_dev` -> `python -m src.llm_label --model ...` (two models; needs `GROQ_API_KEY` in `.env`) -> `python -m src.label_noise --stage review`, fill `my_label` in `data/dev_review.csv`, `--stage final` -> `python -m src.build_taxonomy_v2` -> `python -m src.taxonomy_eval` -> `python -m src.embed_cache` -> `python -m src.run_models` -> `python -m src.latency --model <name>` -> `python -m src.oos` -> `python -m src.final_model` -> `python -m src.predict --name adithya` -> `python -m src.check_submission submissions/adithya_predictions.csv`.
+
+**Limits.** The model is trained on silver labels and inherits their ~12% noise; label cleaning (Phase 6) was not done, so "cleaner labels vs a bigger model" stays untested. Test accuracy is unknown; my estimates come from silver dev (0.845 macro-F1) and the checked set (0.901, optimistic because 200 of its 250 rows are consensus rows). The submission name `adithya` is my guess from the git user; rename the file if the task wants another name.
+
+**Where the AI was wrong.** The format checker crashed with a traceback on a file with a wrong column name instead of reporting FORMAT FAILED; caught by my own negative test, fixed before submitting.
+
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)
 

@@ -121,3 +121,18 @@ One entry per decision. No entry without evidence.
 - **Question:** how to test out_of_scope on topics the training data never showed?
 - **Decision:** write 30 novel out_of_scope and 30 novel in-domain messages myself (`data/oos_probes.csv`), report only, never used to choose a threshold. Labels are mine and not human-checked; Adi should skim them.
 - **What would change it:** a larger, independently labelled set.
+
+## D16 — Final model is trained on train only; dev stays held out
+- **Phase:** 7
+- **Question:** add the 4,000 silver dev rows to training for the submission?
+- **Evidence:** +13% data would give a small gain at best; but then no held-out set would describe the submitted model (dev silver, checked sample both come from dev). The saved model reproduces the reported numbers exactly (silver dev macro-F1 0.8448, checked 0.9013).
+- **Decision:** train on `data/train.csv` only. Test is read once, to predict.
+- **What would change it:** with more time, retrain on train+dev after all selection is done and report that the held-out numbers no longer apply to it.
+
+## D17 — Phase 6 (clean the labels) skipped
+- **Phase:** 7
+- **Decision (Adi):** go from Phase 5 to Phase 7. "Do cleaner labels beat a bigger model?" is therefore untested; listed as the main next step in the write-up. Evidence it could matter: silver is wrong on about 12% of dev (`results/label_noise.csv`) and the two weakest classes have the noisiest train labels (`results/cv_disagreement_by_class.csv`).
+
+## D18 — Submission file name
+- **Phase:** 7
+- **Decision:** `submissions/adithya_predictions.csv`, from the git user name. README asks for `<your_name>_predictions.csv`; rename if needed.
