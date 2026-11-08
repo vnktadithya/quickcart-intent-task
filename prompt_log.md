@@ -78,3 +78,28 @@ claude written code for phase 2 partially to flag suspicious labels with Five-fo
 
 ### Notes:
 the api key was still returning the invalid request. It might be because of stale memory which has not been overwritten with the new key. Will try with `load_dotenv(dotenv_path=env_path, override=True)` in code to overwrite the value in memory with the new value. 
+
+## 9 - Claude Code (VS Code), Nov 8
+> I changed the new key in the .env even before. It might not be working because of the stale memory on disk. This happened to me before. Try it in code with `load_dotenv(dotenv_path=env_path, override=True)` to overwrite the existing stale memory.
+>
+> on your quesitons:
+> 1) Yes, I agree with that and changed the CLAUDE.md file accordingly.
+> 2) Yes, I agree
+>
+> we can proceed next.
+
+### Notes:
+The key worked now, and the two models Qwen3.8 - 27B and GPT-OSS - 120B are used to predict the labels for `dev_sample.csv`. Claude created a new file `dev_review.csv` where the models disagree with actual silver labels. I manually labelled them to check the Wilson interval.
+
+## 10 - Claude Code (VS Code), Nov 8
+> I changed the column `adi_label` to `my_label`. So, make the changes wherever required accordingly. And done with what you had asked me to do. Manually labelled all the 50 with the error_type where my_label differs with silver_label. Proceed next.
+
+### Notes:
+a sample in `dev_sample.csv` was labelled wrong and corrected it
+
+
+
+## 11 - Claude Code (VS Code), Nov 8
+> made the requried changes. proceed for the next steps.
+
+Note: TODO (Adi)

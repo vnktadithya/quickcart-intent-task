@@ -46,8 +46,8 @@ One entry per decision. No entry without evidence.
 - **Phase:** 2
 - **Question:** which LLM pre-labels the 250 dev rows (and later relabels train)?
 - **Options considered:** local Qwen2.5-7B-Instruct (Ollama, CPU only); hosted 70B-class open-weights model on Groq.
-- **Evidence:** README allows hosted APIs serving open-source models; no GPU on this machine, so a larger model locally is not practical. No accuracy evidence yet, the model is picked by pilot.
-- **Decision:** use a 70B-class open model through Groq (exact model id to be set after the key works); keep local Qwen2.5-7B as a second opinion. Raw outputs to `results/llm_raw/`, temperature 0.
+- **Evidence:** README allows hosted APIs serving open-source models; no GPU here. Groq had no Llama-70B, so both `openai/gpt-oss-120b` and `qwen/qwen3.8-27b` were run. Against Adi's checked labels (`results/label_noise.csv`): all 250 rows qwen 96.8% [93.8, 98.4] vs gpt-oss 93.2% [89.4, 95.7]; on the 50 hard rows qwen 42/50 vs gpt-oss 33/50. The all-250 intervals overlap, but the hard-row gap is large.
+- **Decision:** qwen3.8-27b is the primary labeller from now on (Phase 6 relabelling), gpt-oss-120b the second opinion; no local 7B. Raw outputs in `results/llm_raw/`, temperature 0. The separate 40-row pilot was dropped: Adi's 50 adjudications served as the model test.
 - **What would change it:** the pilot showing a different candidate agrees more with Adi's labels; the key/rate limits not working.
 
 ## D5 — Minimum 15 rows per class in the 250-row dev sample
@@ -61,5 +61,13 @@ One entry per decision. No entry without evidence.
 ## D6 — No manual labelling of the full 250 rows (Adi's call)
 - **Phase:** 2
 - **Question:** who labels the checked set?
-- **Decision (Adi):** do not hand-label 250 rows; show LLM suggestions (no blind labelling). Conflicts with the CLAUDE.md rule "Adi verifies every row", so the scope of Adi's review is still open (see the Phase 2 reply).
-- **What would change it:** the review scope agreed with Adi.
+- **Decision (Adi):** not 250 hand labels, and not blind. Two models label all 250; Adi labelled only the 50 rows where silver and the models did not all agree (CLAUDE.md updated by Adi). The 200 consensus rows are used as-is and called "not human-checked" in the write-up.
+- **Evidence:** 200/250 rows had silver = both models; among the 50 reviewed, Adi's label differed from silver on 30 and sided with silver against both models on 20, so the models are not a copy of silver (`data/dev_review.csv`).
+- **What would change it:** auditing a random sample of the 200 consensus rows would bound the shared-mistake risk; not done.
+
+## D7 — What counts as the "checked" label
+- **Phase:** 2
+- **Question:** how to build `data/dev_checked.csv` from 50 human labels + 200 consensus rows?
+- **Decision:** checked_intent = Adi's `my_label` where reviewed, else the consensus (silver = both models). Column `human_checked` marks which. Used for model selection from Phase 4; weights kept for re-weighting to the dev mix.
+- **Evidence:** silver agrees with it on 88.0% [83.4, 91.5] (`results/label_noise.csv`).
+- **What would change it:** evidence that consensus rows contain errors (random audit of a few of the 200).

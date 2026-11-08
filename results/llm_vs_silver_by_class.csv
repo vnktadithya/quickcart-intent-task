@@ -1,0 +1,13 @@
+silver_class,n,silver_eq_model_a,silver_eq_model_b,models_agree
+account_help,15,11,12,14
+cancel_order,24,18,19,23
+change_address,15,12,12,14
+delivery_delay,33,21,26,24
+missing_item,17,13,13,17
+order_status,32,30,29,30
+out_of_scope,23,23,23,23
+payment_failed,19,17,18,18
+promo_code_issue,15,13,11,12
+refund_request,27,26,24,25
+talk_to_agent,15,12,12,15
+wrong_item,15,11,13,12

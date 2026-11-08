@@ -1,0 +1,5 @@
+comparison,n,agree,rate_unweighted,ci95_low,ci95_high,rate_dev_weighted,wtd_ci95_low,wtd_ci95_high
+silver vs model_a (gpt-oss-120b),250,207,0.828,0.7763,0.8697,0.829,0.7773,0.8707
+silver vs model_b (qwen3.8-27b),250,212,0.848,0.7983,0.8872,0.8494,0.7997,0.8885
+model_a vs model_b,250,227,0.908,0.8657,0.9379,0.9099,0.8679,0.9395
+silver = model_a = model_b,250,200,0.8,,,,,

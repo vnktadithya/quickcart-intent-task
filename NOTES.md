@@ -46,30 +46,34 @@ These were found by running the starter code during planning. They are not evide
 
 **Went wrong.** My first attempt at writing the script via a shell heredoc failed (quoting error) and left junk in a draft line; I rewrote it with the file-write tool. No numbers were affected. The plan's figure of "true macro-F1 0.411" was reproduced (0.4105).
 
-## Phase 2 — Label noise (IN PROGRESS: 2a and sampling done; LLM labelling blocked)
-**Done so far.**
-- `src/cv_flags.py` (seed 42): 5-fold out-of-fold predictions on train with word+char TF-IDF + logistic regression. A row is flagged when the held-out prediction differs from its silver label. Outputs: `results/cv_flags_train.csv` (4,230 flagged rows), `results/cv_disagreement_by_class.csv`.
-- `src/sample_dev.py` (seed 42): 250-row dev sample, proportional by class with a floor of 15 per class, weights saved for re-weighting. Output: `data/dev_sample.csv`.
+## Phase 2 — Label noise
+**What was done.**
+1. `src/cv_flags.py` (seed 42): 5-fold out-of-fold predictions on train (word+char TF-IDF + logistic regression). A row is flagged when the held-out prediction differs from the silver label. -> `results/cv_flags_train.csv` (4,230 of 30,000 = 14.1%), `results/cv_disagreement_by_class.csv`.
+2. `src/sample_dev.py` (seed 42): 250-row dev sample, proportional by class with a floor of 15 per class, weights kept. -> `data/dev_sample.csv`.
+3. `src/llm_label.py`: two open-weights models on Groq (`openai/gpt-oss-120b`, `qwen/qwen3.8-27b`) labelled the 250 rows using the 8 rules, temperature 0. Raw outputs: `results/llm_raw/*.jsonl`. Only messages from this repo were sent.
+4. `src/label_noise.py --stage review`: rows where silver and both models do not all agree (50) -> `data/dev_review.csv`. Adi labelled these 50 himself (not blind; he saw silver + model labels) in column `my_label`, with an `error_type` where he disagreed with silver.
+5. `src/label_noise.py --stage final` -> `data/dev_checked.csv`, `results/label_noise.csv`.
 
-**Numbers.** 4,230 of 30,000 train rows (14.1%) are flagged. The flag rate is not the noise rate: it also counts the model's own mistakes.
-| silver class | flag rate | what the model says instead (top) |
-|---|---|---|
-| out_of_scope | 6.3% | talk_to_agent (83) |
-| order_status | 9.2% | delivery_delay (232) |
-| change_address | 10.8% | account_help (35) |
-| delivery_delay | 14.6% | order_status (355) |
-| talk_to_agent | 19.3% | out_of_scope (259) |
-| wrong_item | 20.0% | missing_item (105) |
-| **promo_code_issue** | **60.6%** | payment_failed (91) |
-| **account_help** | **70.9%** | change_address (148) |
+**Checked label of a row** = Adi's label for the 50 reviewed rows; for the other 200 rows (silver = both models) the label they all agree on. **Those 200 were not human-checked.**
 
-**What I saw in a random look at the flagged rows (8 per class, not a measurement).**
-- `promo_code_issue` rows in train are mostly NOT about promo codes ("net banking payment unsuccessful", "bruh pls connect me to a human", "the order was supposed to be here already"). Likewise `account_help` rows are mostly address-change messages. By the 8 rules these silver labels are wrong, so here the label, not the model, looks wrong. The two intents the starter could not predict are also the two whose train labels look worst.
-- `talk_to_agent` -> `out_of_scope` flags are small talk ("call my mom", "recommend a good movie") that rule 6 says is `out_of_scope`.
-- `delivery_delay` -> `order_status` flags are status questions ("has the rider been assigned yet") that rule 4 says are `order_status`.
-These are impressions from 8-line samples. The 250-row audit is what will give the rate and interval.
+**Numbers (`results/label_noise.csv`).**
+- Silver agrees with the checked label on **220 / 250 = 88.0%**, 95% Wilson interval **[83.4%, 91.5%]**; re-weighted to the dev class mix 88.1% [83.5%, 91.6%]. So about 12% of silver dev labels are wrong, and more if any of the 200 unchecked rows are.
+- Per silver class (n = 15-33, intervals are wide): out_of_scope 23/23, order_status 31/32, refund_request 26/27, payment_failed 18/19, wrong_item 14/15, delivery_delay 28/33, cancel_order 19/24 (79%), missing_item 13/17 (76%), promo_code_issue / change_address / account_help / talk_to_agent 12/15 each (80%).
+- Of the 30 wrong silver labels, Adi tagged 11 as rule violations (rule 6 should be out_of_scope: 5; rule 1 first request: 3; rule 5 agent vs other request: 2; rule 2 change of mind: 1) and 19 as plain "silver label wrong". The silver->checked pairs are mostly one-offs (largest: cancel_order->delivery_delay 3), i.e. the errors are spread out, not one dominant confusion. Everything labelled out_of_scope in silver was right (23/23), but 5 messages that silver gave another label should be out_of_scope.
+- Labellers vs the checked label, all 250 rows: silver 88.0%, gpt-oss-120b 93.2% [89.4, 95.7], qwen3.8-27b **96.8%** [93.8, 98.4]. On the 50 hard rows only (where somebody disagreed): silver 20/50, gpt-oss 33/50, qwen 42/50 (84%). Caveat: the 50 are exactly the rows where silver differed from at least one model, and the all-agree rows are scored as correct for all three labellers, so the all-250 figures are upper bounds. Qwen was the better labeller on this evidence.
 
-**Blocked.** The `GROQ_API_KEY` in `.env` returns HTTP 401 "Invalid API Key" from Groq (key format looks right: `gsk_` prefix). The LLM pre-labelling cannot run until a valid key is supplied.
+**What this means.** Silver dev is mostly right (88%) but not a gold standard: a model that learns silver perfectly would top out near 88% on checked labels, and silver-dev differences of a point or two between models are inside the noise. The two open-weights models agree with each other (90.8%) far more than either agrees with silver, which makes them useful as a noise detector; they are not a copy of silver or of each other, because Adi sided with silver against both models on 20 rows.
+
+**Open question (not resolved).** In train, the CV flag rate for `promo_code_issue` (61%) and `account_help` (71%) is far above the overall 14%, and a quick look showed many of those train rows are clearly not about promos / accounts. In dev the same two classes agree with the checked label at 80% (12/15). Two explanations fit: train labels for these two classes are much worse than dev's, or the model simply has too few rows (325 and 388) to learn them. The 15-row dev numbers cannot separate them. An LLM audit of a train sample could.
+
+**Concepts in plain words.**
+- *Cross-validated disagreement:* train on 4/5 of the data, predict the held-out 1/5, rotate. Every row is predicted by a model that never saw it, so a disagreement is a candidate error, not proof (label or model may be wrong).
+- *Wilson interval:* the range of true agreement rates consistent with k/n in the sample. For 220/250 it is 83.4-91.5%. Unlike the textbook k/n +- 2*sqrt(p(1-p)/n), it behaves for small n and for rates near 0 or 1.
+- *Why weights:* the 15-row floor over-samples four small classes, so the plain 250-row rate is slightly off the dev mix; weight = dev class size / sampled size corrects it (effect here: 88.0% -> 88.1%).
+
+**Limits.** 200 of 250 checked labels are model-and-silver consensus, not human-verified; shared mistakes are possible. Per-class intervals are 20-30 points wide. One reviewer (Adi), no second annotator, so no inter-annotator agreement. Model names/licences were taken from Groq's catalogue and not verified (qwen3.8-27b in particular).
+
+**Where the work went wrong.** My first plan for Phase 2 leaned on a local 7B model without checking that the README allows hosted open-weights APIs; Adi caught it (prompt 6). The Groq 401s were a stale `.env` file on disk, not a code bug (prompt 9). Twice a shell heredoc failed on quoting and I moved the code into files.
 
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)

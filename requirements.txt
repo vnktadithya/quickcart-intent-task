@@ -3,3 +3,4 @@ numpy==2.2.6
 pandas==2.3.3
 scikit-learn==1.7.2
 # Add anything else you use (and say why in your write-up).
+python-dotenv==1.2.4  # reads GROQ_API_KEY from .env for offline LLM labelling
