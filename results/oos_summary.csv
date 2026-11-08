@@ -1,0 +1,5 @@
+variant,description,threshold_chosen_on_train_oof,train_oof_macro_f1,train_oof_accuracy,train_oof_oos_precision,train_oof_oos_recall,silver_dev_macro_f1,silver_dev_accuracy,silver_dev_oos_precision,silver_dev_oos_recall,checked_dev_macro_f1,checked_dev_accuracy,checked_dev_oos_precision,checked_dev_oos_recall,probes_60_macro_f1,probes_60_accuracy,probes_60_oos_precision,probes_60_oos_recall,probe_novel_oos_recall,probe_in_domain_sent_to_oos,probe_in_domain_accuracy
+V0,12-class argmax (trained out_of_scope class),,0.7955,0.859,0.878,0.9372,0.8448,0.8532,0.8816,0.9259,0.8938,0.912,0.9615,0.8621,0.8773,0.85,1.0,0.7333,0.7333,0.0,0.9667
+V1,11-class + reject if max prob < t,0.5,0.7159,0.7805,0.4291,0.2966,0.7586,0.7665,0.2918,0.254,0.795,0.808,0.2,0.1379,0.8301,0.7,1.0,0.4333,0.4333,0.0,0.9667
+V2,12-class + reject if max prob < t,0.15,0.7955,0.859,0.8778,0.9372,0.8448,0.8532,0.8816,0.9259,0.8938,0.912,0.9615,0.8621,0.8773,0.85,1.0,0.7333,0.7333,0.0,0.9667
+V3,"12-class, out_of_scope if P(oos) >= t",0.3,0.796,0.8599,0.8759,0.9518,0.8476,0.856,0.8953,0.9497,0.8938,0.912,0.9615,0.8621,0.8806,0.85,1.0,0.7333,0.7333,0.0,0.9667

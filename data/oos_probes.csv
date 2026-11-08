@@ -1,0 +1,61 @@
+utterance,intent,probe_type
+asdkjh qwe zxcv,out_of_scope,novel_oos
+what's the weather like tomorrow,out_of_scope,novel_oos
+help me write a poem about rain,out_of_scope,novel_oos
+my uber ride to the airport is late,out_of_scope,novel_oos
+netflix is not working on my tv,out_of_scope,novel_oos
+how do I invest in mutual funds,out_of_scope,novel_oos
+can you recommend a good dentist nearby,out_of_scope,novel_oos
+when is the next IPL match,out_of_scope,novel_oos
+swiggy delivered the wrong order to me,out_of_scope,novel_oos
+zomato has not refunded my money,out_of_scope,novel_oos
+I want to send a gift card to my friend,out_of_scope,novel_oos
+please add a 50 rupee tip for the rider,out_of_scope,novel_oos
+how do I file my income tax return,out_of_scope,novel_oos
+my wifi router keeps disconnecting,out_of_scope,novel_oos
+what is your favourite colour,out_of_scope,novel_oos
+who invented the telephone,out_of_scope,novel_oos
+book me a cab to the railway station,out_of_scope,novel_oos
+order a pizza from dominos for me,out_of_scope,novel_oos
+convert 100 dollars to rupees,out_of_scope,novel_oos
+how many calories are in a banana,out_of_scope,novel_oos
+sing me a song,out_of_scope,novel_oos
+thanks a lot,out_of_scope,novel_oos
+hello there,out_of_scope,novel_oos
+ok bye,out_of_scope,novel_oos
+mera phone kharab ho gaya hai,out_of_scope,novel_oos
+kal ka mausam kaisa rahega,out_of_scope,novel_oos
+can you teach me python programming,out_of_scope,novel_oos
+recharge my mobile for 299,out_of_scope,novel_oos
+how do I lose weight fast,out_of_scope,novel_oos
+what is the meaning of life,out_of_scope,novel_oos
+where is my order number 4421,order_status,novel_in_domain
+i am hungry and the rider is taking forever,delivery_delay,novel_in_domain
+please cancel my order right away,cancel_order,novel_in_domain
+the refund for my cancelled order has not arrived,refund_request,novel_in_domain
+milk packet is missing from my groceries,missing_item,novel_in_domain
+i got paneer instead of chicken,wrong_item,novel_in_domain
+upi payment failed twice at checkout,payment_failed,novel_in_domain
+my coupon SAVE20 shows invalid,promo_code_issue,novel_in_domain
+change my delivery address to 12 MG Road,change_address,novel_in_domain
+i forgot my login password,account_help,novel_in_domain
+connect me to a human please,talk_to_agent,novel_in_domain
+otp not received for login,account_help,novel_in_domain
+discount not applied at checkout,promo_code_issue,novel_in_domain
+order status batao,order_status,novel_in_domain
+mera order late hai,delivery_delay,novel_in_domain
+bag mein ek item nahi mila,missing_item,novel_in_domain
+galat item bhej diya,wrong_item,novel_in_domain
+payment fail ho gaya,payment_failed,novel_in_domain
+mujhe refund chahiye,refund_request,novel_in_domain
+address badalna hai,change_address,novel_in_domain
+agent se baat karani hai,talk_to_agent,novel_in_domain
+promo code kaam nahi karta,promo_code_issue,novel_in_domain
+account delete karna hai,account_help,novel_in_domain
+my food arrived cold and I want my money back,refund_request,novel_in_domain
+the app keeps logging me out,account_help,novel_in_domain
+eta for my grocery order please,order_status,novel_in_domain
+i was charged but no order was placed,payment_failed,novel_in_domain
+the wrong order was delivered to me,wrong_item,novel_in_domain
+delivery is 40 minutes late,delivery_delay,novel_in_domain
+i want to speak to your supervisor,talk_to_agent,novel_in_domain

@@ -151,6 +151,40 @@ These were found by running the starter code during planning. They are not evide
 
 **Where the AI was wrong.** Nothing wrong caught in this phase yet.
 
+## Phase 5 — The out_of_scope decision
+**Question.** "Unknown" can be produced two ways: (a) train out_of_scope as one of the 12 classes (the model has seen small talk, gibberish, other services) or (b) train only the 11 real intents and send a message to out_of_scope when the model is not confident. The starter did (b) with a fixed threshold, and it sent 54% of dev to out_of_scope.
+
+**What was compared** (`src/oos.py`; all on the Phase 4 TF-IDF+LR model, C=10 fixed):
+- V0: 12-class, plain argmax (trained out_of_scope class).
+- V1: 11-class model trained WITHOUT out_of_scope rows; out_of_scope if max probability < t.
+- V2: 12-class model; out_of_scope if max probability < t (low-confidence reject).
+- V3: 12-class model; out_of_scope if P(out_of_scope) >= t.
+The threshold t is chosen ONLY on train out-of-fold predictions (5-fold, seed 42, maximise macro-F1 there). Silver dev, the checked set and a 60-message probe set are report-only. Outputs: `results/oos_threshold.csv` (full sweep), `results/oos_summary.csv`, `results/oos_pr_curve.csv`, `data/oos_probes.csv`.
+
+**Results at the train-OOF-chosen t** (`results/oos_summary.csv`):
+| variant | t | silver dev macro-F1 | checked macro-F1 | silver dev OOS P / R | probe: novel OOS recall |
+|---|---|---|---|---|---|
+| V0 trained class, argmax | - | 0.845 | 0.894 | 0.882 / 0.926 | 0.733 |
+| V1 11-class + confidence threshold | 0.50 | 0.759 | 0.795 | 0.292 / 0.254 | 0.433 |
+| V2 12-class + confidence threshold | 0.15 | 0.845 | 0.894 | 0.882 / 0.926 | 0.733 |
+| V3 12-class, P(oos) >= t | 0.30 | 0.848 | 0.894 | 0.895 / 0.950 | 0.733 |
+- **Confidence is a bad out_of_scope detector here.** Average precision for finding out_of_scope on silver dev: P(out_of_scope) 0.898 (V3), 1 - max-probability from the 11-class model 0.218 (V1), from the 12-class model 0.085 (V2). Base rate is about 0.095, so V2's confidence carries no out_of_scope signal at all. V1 at its best threshold (0.5) has out_of_scope precision 0.29 and recall 0.25; to reach recall 0.80 it must send 49% of messages to out_of_scope (t = 0.9).
+- **Why:** a linear model is confident when it sees familiar words. "swiggy delivered the wrong order to me" gets 0.99 confidence for wrong_item because of "wrong order"; confidence measures how sure the model is among the 11 classes, not whether the message belongs to any of them.
+- **The trained class works** because the train data contains thousands of examples of what out_of_scope looks like (3,011 rows; includes the README's gift-card, loyalty, tax-invoice, tipping and feedback examples), so it learns that vocabulary directly.
+- **V2 is V0.** At t = 0.15 the low-confidence reject almost never fires, so results are identical. V3 (t = 0.3) gains +0.003 macro-F1 on silver dev and 0 on checked and probes: inside the noise.
+- **Probe set (60 messages I wrote, `data/oos_probes.csv`, NOT from the data and NOT human-checked):** 30 novel out_of_scope messages (gibberish, other companies, weather, taxes, Hinglish) and 30 novel in-domain ones. The trained class recalls 22 of 30 novel out_of_scope messages (0.733) and sends none of the in-domain ones to out_of_scope. All 8 misses: other companies' versions of in-domain complaints ("swiggy delivered the wrong order" -> wrong_item, "zomato has not refunded my money" -> refund_request, "order a pizza from dominos" -> refund_request) and a few short unfamiliar messages ("sing me a song" -> talk_to_agent, "kal ka mausam kaisa rahega" -> order_status). Lowering V3's threshold trades this against dev: t = 0.10 gives probe recall 0.833 and silver-dev macro-F1 0.835 (-0.013 vs 0.848); t = 0.05 gives 0.867 and 0.809.
+
+**Decision: V0, the trained out_of_scope class with plain argmax, no threshold.** It wins or ties on every set, has no tuned parameter, and the principled "confidence threshold" alternative is clearly worse (D14). The remaining lever, a lower P(out_of_scope) threshold, is a policy choice (catch more unseen out_of_scope at a small cost in dev macro-F1); I did not pick it from the probes because they are my own 60 messages.
+
+**Concepts in plain words.**
+- *Confidence vs out-of-distribution:* a classifier's top probability says "how much better is the best class than the others", not "is this even my kind of message". That is why a threshold on it fails here.
+- *Average precision:* area under the precision-recall curve for one yes/no task (here "is this out_of_scope"); 1.0 is perfect, the base rate (about 0.095) is chance.
+- *Choosing the threshold on a different set than you report on:* t was fixed on train out-of-fold predictions, so dev and checked numbers are not tuned.
+
+**Limits.** Probes are few (60), written by me, with my own labels, and the out_of_scope train rows come from the same generator as dev/test, so real unseen traffic is likely harder than dev suggests. The other-company messages are inherently hard for a bag-of-words model; a small list of competitor names as a rule is a possible next step (not tried).
+
+**Where the AI was wrong.** Nothing wrong caught in this phase yet.
+
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)
 

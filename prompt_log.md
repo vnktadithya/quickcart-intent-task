@@ -113,3 +113,8 @@ Note: TODO (Adi)
 > go
 
 Note: TODO (Adi)
+
+## 14 - Claude Code (VS Code), Nov 8
+> go
+
+Note: TODO (Adi)

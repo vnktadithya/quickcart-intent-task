@@ -108,3 +108,16 @@ One entry per decision. No entry without evidence.
 ## D13 — Embedding models and their licences
 - **Phase:** 4
 - **Evidence:** `results/embedding_models.csv` (licence read from the Hugging Face model card metadata): all-MiniLM-L6-v2 apache-2.0; bge-small-en-v1.5 mit; e5-small-v2 mit; paraphrase-multilingual-MiniLM-L12-v2 apache-2.0. Models were only used offline in experiments and are not in the final system.
+
+## D14 — out_of_scope is a trained class, not a confidence threshold
+- **Phase:** 5
+- **Question:** produce out_of_scope with a trained class (V0) or by thresholding confidence (V1/V2), or a threshold on P(out_of_scope) (V3)?
+- **Evidence:** `results/oos_summary.csv`. Silver dev macro-F1: V0 0.845, V1 0.759, V2 0.845 (inert), V3 0.848. Checked: 0.894 / 0.795 / 0.894 / 0.894. Average precision for detecting out_of_scope (`results/oos_pr_curve.csv`): P(oos) 0.898, 11-class confidence 0.218, 12-class confidence 0.085 (chance about 0.095). Probe recall on 30 novel out_of_scope messages: V0 0.733, V1 0.433.
+- **Decision:** V0, plain argmax over 12 classes. Threshold t for V1-V3 was chosen on train out-of-fold (0.50, 0.15, 0.30); none beats V0 by more than 0.003.
+- **What would change it:** evidence that the hidden test has many unseen out_of_scope topics; then lower the P(out_of_scope) threshold (t = 0.10: probe recall 0.833, silver-dev macro-F1 -0.013).
+
+## D15 — 60 hand-written probes as a robustness check
+- **Phase:** 5
+- **Question:** how to test out_of_scope on topics the training data never showed?
+- **Decision:** write 30 novel out_of_scope and 30 novel in-domain messages myself (`data/oos_probes.csv`), report only, never used to choose a threshold. Labels are mine and not human-checked; Adi should skim them.
+- **What would change it:** a larger, independently labelled set.
