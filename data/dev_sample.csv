@@ -1,0 +1,251 @@
+dev_row,utterance,silver_intent,weight
+3795,"put me through to a human agent, but firet wrkng food delviered in order 6900.",wrong_item,13.9333
+3997,"my brother told me to try your ap.p I was stuck in a meeting till 5 pm. I placed an order 20 minutes ago, any update?. I tried calling earlier but the line was busy.",order_status,16.4062
+3678,"Hi quickcart, when will I get my refund kindly check...",refund_request,16.3333
+59,"Hello there. you promised 30 minutes, it's been 75 pls!!",delivery_delay,16.5455
+2487,"namaste, refund for the cancelled order QC-86586 hasn't come urgent",refund_request,16.3333
+2419,applied vooucher but no discount pls...,promo_code_issue,13.8
+606,😡 why is my account locked 😡😡,account_help,14.1333
+2312,😡 nerd to edit my deliveyr locatino 😭,change_address,15.0
+1036,"hi, has my order left the restaurant yet",order_status,16.4062
+1793,"hey, mujjhe chahiye a refund asap.",refund_request,16.3333
+1434,app logged me out plus the packet had no extra cheese,account_help,14.1333
+3179,talk to executige,talk_to_agent,16.2667
+1644,"hello, what is 15 times 12 urgent",out_of_scope,16.4348
+939,the plumber is late for my appointment,out_of_scope,16.4348
+300,cancel the pending order.,cancel_order,16.7083
+1858,"Namaste, let me speak to customer care kindly check",talk_to_agent,16.2667
+3560,"mea wifi is aso actiing up. I was stuck in a meeting till 5 pm. namaste, address mismatch, update it",change_address,15.0
+1110,I just moved to this area last month. hello there. show me live tracking for order #655764 asap.,order_status,16.4062
+3351,Free delivery offer not applied thank you.,promo_code_issue,13.8
+2592,"Good evening, which stage is my order at asap.",order_status,16.4062
+127,where can I buy a laptop kindly check?,out_of_scope,16.4348
+967,bruh is my food on the way 🙏🙏,order_status,16.4062
+1352,"hi quickcart, I want a refund please help",refund_request,16.3333
+2192,I'd like to cancel this order and reorder please help,cancel_order,16.7083
+2916,"hi, promo code error at checkoyt urgent?",promo_code_issue,13.8
+3100,"hi quickcart, why has my delivery not arrivd yet. this is the worst day I'be had this wee.",delivery_delay,16.5455
+1187,fokd is going to be cold by the time it arrives please,delivery_delay,16.5455
+83,any news on my order,order_status,16.4062
+3981,"Good evening, update on QC840853 pls kindly check",order_status,16.4062
+1851,"Hey, the packet had no chocolate shake please...",missing_item,17.1765
+1120,"good evening, login problem please.",account_help,14.1333
+520,"namaste, it said 25 min and now 1 hr 10 min asap",delivery_delay,16.5455
+314,my phone battery is almost deead so pls be quick. the weather is terrible here today. hwllo ther. the delivered item doesn't match my order asap.,wrong_item,13.9333
+1966,"I just moved to this area last month. my wifi is also acting up. hi, agent se connect karo.",talk_to_agent,16.2667
+2300,"hi quickcart, track my order kindly check!!",order_status,16.4062
+307,"Namaste, order was delivered cold, refund please please?",refund_request,16.3333
+2990,show me live tracking for order QC-25390 thx.,order_status,16.4062
+622,"hi, set my default address to my new home please.",change_address,15.0
+3952,"namaste, net banking payment unsuccessful help me",promo_code_issue,13.8
+1018,"hello, money got deducted but the order was not placed please help.",payment_failed,16.8421
+763,missing item in order #80781 please help,missing_item,17.1765
+991,"hey, you took Rs 78 from me for nothing, give it back please?",refund_request,16.3333
+1183,yaar requesting a refund for the spoiled food ngl.,refund_request,16.3333
+3711,"escalate to your senior team, also modify delivery address for my pending orer",change_address,15.0
+677,sorry for the logn messag. I am at work right now and cannot tallk much. call my mom?,talk_to_agent,16.2667
+16,"Hi quickcart, when will the rider pick up my order asap...",order_status,16.4062
+2498,wrong food delivered in qc-377878 pls. i was stuck in a meeting till 5 pm. i usually order from u every weekend.,wrong_item,13.9333
+970,I am at work right now and cannot taalk much. I wabt to cancel my ordder?,cancel_order,16.7083
+1879,the discount was not applied plus i got a large instead of a meium.,promo_code_issue,13.8
+1197,"slow delivery today and my landmark is wrong, can i fix it.",delivery_delay,16.5455
+780,Mera tomatoes nahi aaya please help...,missing_item,17.1765
+2767,"msra phone battery is almost dead so pls be quick. I just moved to this area last month. excuse me, muhje chahiye to talk to a human!!",talk_to_agent,16.2667
+2255,"Hello, good morning thank you!!",out_of_scope,16.4348
+2352,"i need live support, but first bag mein ek item nahi hai",missing_item,17.1765
+3824,"nammaste, wrong eggs dleivered ugrent. btw the app looks good after the update.",wrong_item,13.9333
+2844,cancel my order before it is prepared one more thing: i want to change my delivery address,cancel_order,16.7083
+2763,"the cashback was not credited actually never mind, I want to talk to a human",talk_to_agent,16.2667
+2354,"hello, I paid but it sohws unpaid please help. it's been a really long day. my brohter told me to try your app.",payment_failed,16.8421
+429,"HELLO, THE CASHBAACK WAS NOT CREDITD PLEASE.",promo_code_issue,13.8
+3399,my taxi payment failed?,out_of_scope,16.4348
+3605,my room service order at the hotel is late!!,out_of_scope,16.4348
+3126,"transaction failed, what do I do",payment_failed,16.8421
+3537,missing item in order 2034,missing_item,17.1765
+2163,hello there. it said 25 min and now 1 hr 10 min kindly check,cancel_order,16.7083
+1233,I applied FIRST100 but the pice didn't change,missing_item,17.1765
+3172,"namaste, the discount was not applied kindly check",promo_code_issue,13.8
+3577,my cab is very late,out_of_scope,16.4348
+99,"hey, refund my ₹899 help me",refund_request,16.3333
+248,"excuse me, applieed voucher but no discount thank u.",promo_code_issue,13.8
+862,"hey, good night! my kid is crying in the background.",out_of_scope,16.4348
+2357,"Excuse me, please cancel order 946729 help me.",cancel_order,16.7083
+1164,the app sas payment unsuxcessful pleawe!!,payment_failed,16.8421
+3216,"Hey, please process my refund please help?",refund_request,16.3333
+79,"good evening, stop my order thank u",cancel_order,16.7083
+3136,"Excuse me, bye",out_of_scope,16.4348
+2813,why is my delivery taking so long and by the way when will i get my refund.,cancel_order,16.7083
+3910,"hello, I placed an order 20 minutes ago, any update? asap.",order_status,16.4062
+1900,"Namaste, missing item in order #48038 thanks",missing_item,17.1765
+1332,"helllo, need to cancel todaay's order thannks",cancel_order,16.7083
+107,"Hi quickcart, can you cancel the order, I changed my mind thanks",cancel_order,16.7083
+3210,"HI, IS MY FOD ON THE WAY PELASE HLP!!",order_status,16.4062
+2112,"soryr for the lonng message. this is the worst day I've had this week. too late, I needed tyis for a meeting plz",delivery_delay,16.5455
+2677,hello there. can you deliver to a different address help me.,change_address,15.0
+523,"Excuse me, how to cook biryani help me",out_of_scope,16.4348
+1819,"hi quickcart, promo cde eror at checkout kindly cheeck",promo_code_issue,13.8
+2901,"hello, cancle mera order before it is prepared",cancel_order,16.7083
+3570,"bag mein ek item nahi hai no wait, forget that, wrong food delivered in QC9454",wrong_item,13.9333
+232,"ecuse me, reefund staatus for QC8126...",missing_item,17.1765
+77,"hello, I ordered by mistakee, cancel it...",talk_to_agent,16.2667
+2140,"hi team, pyment fail ho raha hi. my phone battery is almost dead so please be quick.",payment_failed,16.8421
+375,"hi team, which stage is my order at please. I usually order from you every weekend. I tried calling earlier but the line was busy.",order_status,16.4062
+536,"Excuse me, any news on my order thank you?",order_status,16.4062
+625,stats of order number QC64224,delivery_delay,16.5455
+3416,"hi, where is my order thanks.",order_status,16.4062
+32,"hi team, why has my delivery not arrived yet please",delivery_delay,16.5455
+3045,let me speak to cusomer care aasp!!,talk_to_agent,16.2667
+2326,"hey, did the restaurant accept my order kindly check",order_status,16.4062
+3593,"hi, my refund is stuck please help",refund_request,16.3333
+363,"hi, need to speak to a person right now urgent",talk_to_agent,16.2667
+1121,"you tkok ₹120 from me for nothing, give it back and also i can't access my order history",refund_request,16.3333
+3621,my kid is crying in the background. I just moved to this area last month. eta was 7 pm and it's 8 now,delivery_delay,16.5455
+2074,"Namaste, the food was inedible, I want a refund thank you",refund_request,16.3333
+2727,"Hi, I need a refund to my original payment method.",wrong_item,13.9333
+2504,"hi team, link my wallet to the account",account_help,14.1333
+3592,"good evening, order cancel karna hai kindly check?",cancel_order,16.7083
+3632,"I'd like to speak with a supervisor, but first the order was supposed to be here already",delivery_delay,16.5455
+3944,Please process my refund help me,refund_request,16.3333
+112,my payment failed please...,payment_failed,16.8421
+750,abort order #5338329 thanks. mera wiffi is also acting up.,cancel_order,16.7083
+395,"customer crae nmber do, also delivered the wrong size...",wrong_item,13.9333
+2017,"I tried calling earlier but the line was busy. it's been a really long day. hey, status of order number 743843 pls.",order_status,16.4062
+3891,"hlelo, my car won't start",out_of_scope,16.4348
+2627,"the weather is terrible hefe tdoay. I usually order fom u every weekend. hi team, card payment error on checkout.",payment_failed,16.8421
+2698,"hello, ok. i don't usually complain abt thing.s my froend recommended your service.",out_of_scope,16.4348
+1339,Swapped items in my order,wrong_item,13.9333
+2453,Where is my order asap...,order_status,16.4062
+45,"hi, how far is the delivery partner asap",order_status,16.4062
+580,"good evening, can I get a refuund for the damaged groceries?",cancel_order,16.7083
+3899,"order status please sorry, wrong thing, I accidentally ordered, please cancel",delivery_delay,16.5455
+668,"hi quickcart, can I get a refund for the damaged grcoeries",refund_request,16.3333
+3724,"the bill shows 4 items, I got 3 asap",missing_item,17.1765
+356,Card payment error on checkout asap?,payment_failed,16.8421
+1528,How to cook biryani asap,out_of_scope,16.4348
+3982,the pin on the map is wrong and i need to talk to someone.,refund_request,16.3333
+793,"Namaste, don't want this order anymore asap",cancel_order,16.7083
+454,"I usually order from you every weekend. I don't usually complaun about things. hi team, offer expired before the date mentionned please help",promo_code_issue,13.8
+512,"hi quickcart, change mera address before the ridr arrives",change_address,15.0
+3615,"hi, when will i get my refund thank u.",refund_request,16.3333
+3671,"my brother told me to try your app. hey, order QC-5241030 is delayed again",delivery_delay,16.5455
+3811,"hi tezm, why is it dlayed so much help me?",delivery_delay,16.5455
+2196,"hi team, tried paying three ties, nothing wodks thaanks",payment_failed,16.8421
+1088,The delivered item doesn't match my order...,wrong_item,13.9333
+3919,"hello, need an update on my grocery order!!",order_status,16.4062
+1235,Hello there. ??? kindly check.,out_of_scope,16.4348
+3181,"hi quickcart, delete my account urgent?",account_help,14.1333
+3568,"hey, is my order packed",order_status,16.4062
+1870,"Namaste, payment pending for a long time thanks",payment_failed,16.8421
+561,"Hi team, you are late and the rider isn't picking up my calls urgent",order_status,16.4062
+3089,the packet had no curd please help.,missing_item,17.1765
+2173,I don't usualy complain abt things. delivery exceeded the promised timme help me.,delivery_delay,16.5455
+3680,the delivered item doesn't match my order and also i want it sent to my friend's place instead!!,wrong_item,13.9333
+621,"hey, promo code stopped workingggg halfway help me!!",promo_code_issue,13.8
+3009,the delivered item doesn't match my order one more thing: offer not applied on my order,wrong_item,13.9333
+467,it has been over an hour and nothing has arrived urgent,delivery_delay,16.5455
+1718,"namaste, got someone else's order thanks",wrong_item,13.9333
+521,"excsue me, mera saomsa nahi aya",missing_item,17.1765
+1223,"hi tea,m I'd lkie to speak wid a supervior help me.",talk_to_agent,16.2667
+273,error while paying for #4017 help me. my friend recommended your service. my phone batteyr is almost dead so please be quick.,account_help,14.1333
+872,"namaste, cancel my food order, taking too lng?",cancel_order,16.7083
+1338,wrogn pinocdeee enttered thanks...,change_address,15.0
+537,"srory for the long message. this is the worst day I've had ths week. hi, delivery taking forever thannk u?",delivery_delay,16.5455
+3060,it sida 25 min and abbhi 1 hr 10 min,delivery_delay,16.5455
+1019,hello there. debit card keeps getting rejected on your app?,payment_failed,16.8421
+3823,"Hi team, slow delivery today help me",delivery_delay,16.5455
+1537,"HI, HALF MY GROCERIES ARE MISSING KINDLY CHECK",missing_item,17.1765
+1471,"Excuse me, paisa kat gaya par order nahi hua please",payment_failed,16.8421
+2222,has my order left the restaurant yet pls,order_status,16.4062
+342,"transfer me to support no wait, forget tha,t my saved cards are misssing",account_help,14.1333
+3314,"hey, pls redirect my order to another address kindly check. sorry for the long message.",change_address,15.0
+2628,"excuse me, please cancel order 8417 asap.",cancel_order,16.7083
+1740,"hello, too lqte, I needed this for a meeting.",delivery_delay,16.5455
+2786,"hi quickcart, verify my email kindly checkk. sorry for the logn message. the weather is terrible here today.",account_help,14.1333
+3718,"hy, deliivery takiing forever kindly check?",delivery_delay,16.5455
+3601,my brother told me to try your app. I tried calling earlier but the line was busy. refund credited? I don't see it. srory for the lkng message.,refund_request,16.3333
+3141,"can a real agent help me, but before that modfy delivery address for my pending order",change_address,15.0
+3061,yar paymment failed abain fr.,payment_failed,16.8421
+3702,"hi team, aaj delivery bahut late hai pls.",delivery_delay,16.5455
+3958,Mera order nahi hai ye asap.,wrong_item,13.9333
+141,delivery location badalna hai asap,change_address,15.0
+1547,"namaste, need an update on my grocery order?",order_status,16.4062
+635,this is the worst day I've had this week. my friend recommended your service. I needddd a refund to my original payment method please!!,refund_request,16.3333
+1137,"hello, where is my order",delivery_delay,16.5455
+608,"exxcuse me, they delivered the wrong dsih",wrong_item,13.9333
+3073,update my address on the electricity board website?,out_of_scope,16.4348
+205,any news on my order and my promo code is not working,change_address,15.0
+971,"hello, tell me about yourself pls",out_of_scope,16.4348
+345,"when will i get my refund no wait, forget that, eta was 7 pm and it's 8 now?",delivery_delay,16.5455
+1530,the coupon says not applicable!!,payment_failed,16.8421
+382,"hi quickcart, wrong address, cancel my order. I am at work right now and cannot talk much. my phone battery is almost dead so pls be quuick.",cancel_order,16.7083
+2546,eta was 7 pm and it's 8 now plus bag mein ek item nahi hai,delivery_delay,16.5455
+1873,"I'd like to speak with a supervisor sorry, wrong thing, how do I turn off notifications",account_help,14.1333
+3744,"Hi, track my order thanks.",order_status,16.4062
+3292,"hello, coupon invalid dika raha hai please. I don't usually complain abt things. I just moved to this area last month.",promo_code_issue,13.8
+3508,"hi quickcart, still no refund after 7 days asappp",refund_request,16.3333
+1334,"excuse me, paisa wapas chahiye. I usually order from you efery weekend.",refund_request,16.3333
+2428,btw the app looks good after the update. why is mera delivery taking so long help me,cancel_order,16.7083
+3707,"Namaste, which phone should I buy urgent!!",talk_to_agent,16.2667
+3479,my room service order at the hotel is late,out_of_scope,16.4348
+675,"excuse me, you took 450 rupees from me for nothing, give it back",refund_request,16.3333
+873,"Hello, need an update on my grocery order urgent",order_status,16.4062
+3446,"hey, update on ordr 5835266 pls plesae hlp",order_status,16.4062
+1261,"hi team, delivery exceeded the promised time pls",delivery_delay,16.5455
+3384,"Good evening, stop the bot, I want an agent.",talk_to_agent,16.2667
+1073,I usually order from you every weekend. my wifi is also acting up. one of the items was not delivered. I am at wrk right now and cannot talk much.,missing_item,17.1765
+1222,"HELLO, KAISE FAR IS THE DELIVVERY PRATNER. MERA WIFI IS ALOS ACTING UP.",order_status,16.4062
+738,"the weather is terrible here today. hello, my wallet pamyent failed.",payment_failed,16.8421
+977,don't want this order anymore and by the way i forgot my password,cancel_order,16.7083
+210,"namaste, let me speak to customer cre kindly check!!",talk_to_agent,16.2667
+3285,"Hello, I got a large instead of a medium please help",wrong_item,13.9333
+3441,"good evening, mera account login nahi ho raha thank you",account_help,14.1333
+1584,"good evening, asdfgh kindly check",out_of_scope,16.4348
+2879,"helol, delivery partner not moving.",delivery_delay,16.5455
+3942,"waiting for ages, kahan hai the deelivery",delivery_delay,16.5455
+651,"excuse me, how long doees a refnud tame please",refund_request,16.3333
+3514,"hey, you promised 30 minutes, it's been 75 kindly check",delivery_delay,16.5455
+256,"Excuse me, I want to order a cab",out_of_scope,16.4348
+2643,The discount vanished after payment failed,promo_code_issue,13.8
+3503,Verify my email,account_help,14.1333
+1676,bro i want to change my delivvery addrsss fr,change_address,15.0
+1215,"Namaste, recharge my mobile please.",out_of_scope,16.4348
+2470,bro need to edit my delivery location lol,account_help,14.1333
+1483,Connect me to an agent...,talk_to_agent,16.2667
+1380,arrre the cashback was not credited ngl,promo_code_issue,13.8
+3422,orer still not here after 90 mins kindly check. i just moved to this area last month. i was stuck in a meeting till 5 pm.,delivery_delay,16.5455
+3717,slow delivery today,delivery_delay,16.5455
+3476,"coupon says minimum order not met but I met it also, need to speak to a person right now",cancel_order,16.7083
+2215,"hi quickcart, where is my orrder",order_status,16.4062
+14,"omg you promised 30 minutes, it's been 75 fr",delivery_delay,16.5455
+809,"Excuse me, how do I unlink my card thanks!!",account_help,14.1333
+1064,"i tried calling earlier but the line was busy. ig's been a really longgg day. hi, payment failed agian",payment_failed,16.8421
+3798,"i am at work right now and cannot tak much. hi quuickcart, how do i apply for a job at your company urgent?",out_of_scope,16.4348
+3820,"hi quickcart, update the address on order QC499918",change_address,15.0
+3119,sorry for the long message. I was stuck in a meeting till 5 pm. order canecl karna hai asap.,change_address,15.0
+3825,"i ordered by mistake, cancel it actually never mind, someone else's food came to me?",missing_item,17.1765
+1477,"good evening, this is the third time my order is late pls",delivery_delay,16.5455
+2842,"hey, net bankng payment unsuccessful urgent. mera phone battery is almist dead so plz be qhick.",payment_failed,16.8421
+3879,"good evening, movie tickets for tonightttt plz hlp",out_of_scope,16.4348
+3096,"good evening, any news on my order urgent",order_status,16.4062
+472,cancel the order I made 5 minutes ago and by the way part of my order didn't come,delivery_delay,16.5455
+2949,hello there. the app says payment unsuccessful please.,payment_failed,16.8421
+2987,NOT EVERYTHING I ORDERED ARRIVED. I HAVE BEEN A LOYAL CUSTOMER FOR THREE YEASR.,missing_item,17.1765
+879,"hi team, the payment page crashed pls",payment_failed,16.8421
+367,"excuse me, how long does a refund take help me",refund_request,16.3333
+3436,ARRE REFUND THE AMOUNT FOR THE LATE ORDER 🙏🙏!!,refund_request,16.3333
+1126,I wqnt humna help not automated replies help me.,missing_item,17.1765
+3940,"Hey, stop my order kindly check.",cancel_order,16.7083
+3908,btw the app looks good after the update. I am at work right now and cannot talk much. I want to deactivate my account. this is the worst day I've had this week.,account_help,14.1333
+1308,wughdraw mea odder,cancel_order,16.7083
+2390,"hi, talk to executive pleaase.",talk_to_agent,16.2667
+1503,btw the app lpoks good after the update. it's my mom's birthday today. delay in delivery of #3865889. I tried calling earlier but the line was busy.,account_help,14.1333
+1632,"missing item in order order 967299 also, cannot checkout due to a payment error",missing_item,17.1765
+1864,can I schedule an odrer for tomorrow morning,out_of_scope,16.4348
+3903,"hi, order kahan hai meera please?",order_status,16.4062
+3180,"hey, deliver it to my office instead.",change_address,15.0
+3934,"hey, abort order order 6802195.",cancel_order,16.7083
+2148,"Hi, I'd like a refund for the delivery fee urgent",refund_request,16.3333
+3674,"the packet had no raita sorry, wrong thing, my order shows preparing, what next",order_status,16.4062
+2514,refund my rs. 560.,refund_request,16.3333
+3067,hello there. coupon invalid dikha raha hai please help,promo_code_issue,13.8
+987,"hi quickcart, still no refund after 7 days?",refund_request,16.3333

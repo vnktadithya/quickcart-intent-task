@@ -1,0 +1,14 @@
+silver_class,n_train,n_flagged,flag_rate,top_disagreement_1,top_disagreement_2
+order_status,4383,401,0.0915,delivery_delay (232),cancel_order (27)
+delivery_delay,4385,638,0.1455,order_status (355),cancel_order (139)
+cancel_order,3265,417,0.1277,delivery_delay (183),refund_request (79)
+refund_request,3698,544,0.1471,cancel_order (126),payment_failed (114)
+missing_item,2278,323,0.1418,refund_request (96),wrong_item (67)
+wrong_item,1730,346,0.2,missing_item (105),refund_request (103)
+payment_failed,2547,288,0.1131,refund_request (98),order_status (37)
+promo_code_issue,325,197,0.6062,payment_failed (91),talk_to_agent (21)
+change_address,1862,201,0.1079,account_help (35),order_status (24)
+account_help,388,275,0.7088,change_address (148),talk_to_agent (26)
+talk_to_agent,2128,411,0.1931,out_of_scope (259),delivery_delay (31)
+out_of_scope,3011,189,0.0628,talk_to_agent (83),delivery_delay (19)
+ALL,30000,4230,0.141,,

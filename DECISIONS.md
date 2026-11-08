@@ -41,3 +41,25 @@ One entry per decision. No entry without evidence.
 - **Evidence:** Hinglish 413/4000 (10.3%), multi 915/4000 (22.9%) (`results/baseline_fixed.csv`); no validation yet.
 - **Decision:** word list + regex now, documented as unvalidated; revisit on the 250-row checked set in Phase 2.
 - **What would change it:** the checked set showing the heuristics mislabel many rows.
+
+## D4 — Labeller model: a larger hosted open-weights model, not the local 7B
+- **Phase:** 2
+- **Question:** which LLM pre-labels the 250 dev rows (and later relabels train)?
+- **Options considered:** local Qwen2.5-7B-Instruct (Ollama, CPU only); hosted 70B-class open-weights model on Groq.
+- **Evidence:** README allows hosted APIs serving open-source models; no GPU on this machine, so a larger model locally is not practical. No accuracy evidence yet, the model is picked by pilot.
+- **Decision:** use a 70B-class open model through Groq (exact model id to be set after the key works); keep local Qwen2.5-7B as a second opinion. Raw outputs to `results/llm_raw/`, temperature 0.
+- **What would change it:** the pilot showing a different candidate agrees more with Adi's labels; the key/rate limits not working.
+
+## D5 — Minimum 15 rows per class in the 250-row dev sample
+- **Phase:** 2
+- **Question:** proportional sampling or a per-class floor?
+- **Options considered:** proportional (promo_code_issue 12.9, wrong_item 13.1, account_help 13.2, change_address 14.1 rows); floor of 15.
+- **Evidence:** the hidden test is scored per class and by macro-F1; promo_code_issue and account_help are the two classes the starter could not predict at all (recall 0, `results/baseline_fixed.csv`), and their train labels look the worst (`results/cv_disagreement_by_class.csv`: flag rates 61% and 71% vs 14% overall). Phases 3-5 are mostly about them, so the checked set must be able to show whether they improve. 13 rows cannot.
+- **Decision:** floor of 15; weights (class size / sampled size) saved in `data/dev_sample.csv` so overall agreement is re-weighted to the dev distribution. Cost: 15 vs 12.9 is a small change, headline unbiased after weighting.
+- **What would change it:** none of the per-class numbers being used for decisions.
+
+## D6 — No manual labelling of the full 250 rows (Adi's call)
+- **Phase:** 2
+- **Question:** who labels the checked set?
+- **Decision (Adi):** do not hand-label 250 rows; show LLM suggestions (no blind labelling). Conflicts with the CLAUDE.md rule "Adi verifies every row", so the scope of Adi's review is still open (see the Phase 2 reply).
+- **What would change it:** the review scope agreed with Adi.

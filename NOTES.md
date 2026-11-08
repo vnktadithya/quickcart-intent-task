@@ -46,6 +46,31 @@ These were found by running the starter code during planning. They are not evide
 
 **Went wrong.** My first attempt at writing the script via a shell heredoc failed (quoting error) and left junk in a draft line; I rewrote it with the file-write tool. No numbers were affected. The plan's figure of "true macro-F1 0.411" was reproduced (0.4105).
 
+## Phase 2 — Label noise (IN PROGRESS: 2a and sampling done; LLM labelling blocked)
+**Done so far.**
+- `src/cv_flags.py` (seed 42): 5-fold out-of-fold predictions on train with word+char TF-IDF + logistic regression. A row is flagged when the held-out prediction differs from its silver label. Outputs: `results/cv_flags_train.csv` (4,230 flagged rows), `results/cv_disagreement_by_class.csv`.
+- `src/sample_dev.py` (seed 42): 250-row dev sample, proportional by class with a floor of 15 per class, weights saved for re-weighting. Output: `data/dev_sample.csv`.
+
+**Numbers.** 4,230 of 30,000 train rows (14.1%) are flagged. The flag rate is not the noise rate: it also counts the model's own mistakes.
+| silver class | flag rate | what the model says instead (top) |
+|---|---|---|
+| out_of_scope | 6.3% | talk_to_agent (83) |
+| order_status | 9.2% | delivery_delay (232) |
+| change_address | 10.8% | account_help (35) |
+| delivery_delay | 14.6% | order_status (355) |
+| talk_to_agent | 19.3% | out_of_scope (259) |
+| wrong_item | 20.0% | missing_item (105) |
+| **promo_code_issue** | **60.6%** | payment_failed (91) |
+| **account_help** | **70.9%** | change_address (148) |
+
+**What I saw in a random look at the flagged rows (8 per class, not a measurement).**
+- `promo_code_issue` rows in train are mostly NOT about promo codes ("net banking payment unsuccessful", "bruh pls connect me to a human", "the order was supposed to be here already"). Likewise `account_help` rows are mostly address-change messages. By the 8 rules these silver labels are wrong, so here the label, not the model, looks wrong. The two intents the starter could not predict are also the two whose train labels look worst.
+- `talk_to_agent` -> `out_of_scope` flags are small talk ("call my mom", "recommend a good movie") that rule 6 says is `out_of_scope`.
+- `delivery_delay` -> `order_status` flags are status questions ("has the rider been assigned yet") that rule 4 says are `order_status`.
+These are impressions from 8-line samples. The 250-row audit is what will give the rate and interval.
+
+**Blocked.** The `GROQ_API_KEY` in `.env` returns HTTP 401 "Invalid API Key" from Groq (key format looks right: `gsk_` prefix). The LLM pre-labelling cannot run until a valid key is supplied.
+
 ## Concepts
 (Add as they come up: macro vs weighted F1, Wilson interval, calibration, cross-validated disagreement, char n-grams, ...)
 
