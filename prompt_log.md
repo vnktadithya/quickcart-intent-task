@@ -128,3 +128,9 @@ start pahse 5 and test the model across different variants to define the `out_of
 
 ### Notes:
 predictions on test set and check the latency of the final system.
+
+## 16 - Claude Code (VS Code), Nov 9
+> the prompt_log.md is filled and committed. Now create the final 2-page write up based on all the information. Until now i didn't reject any of your answers. Go and complete the final write-up and finish phase 8.
+
+### Notes:
+Create the final write-up with all the information recorded until now in `NOTES.md`, `DECISIONS.md` and `prompt_log.md`

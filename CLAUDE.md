@@ -4,7 +4,7 @@
 - Take-home for the Yellow.ai Applied ML Intern role. Task spec: README.md in this repo. Read it fully before any work.
 - Goal: improve the whole intent-extraction system (taxonomy, data, evaluation, model) and prove every change with numbers.
 - Deadline: submission ready by 7 pm Nov 8. Discussion round Nov 10: Adi must be able to explain every line and decision.
-- Implementation plan: phases 0–8 below. Work them in order.
+- Implementation plan: phases 0–8 below. Work them in order. Full plan with findings and rationale: `docs/PLAN.md`.
 
 ## How we work
 1. One phase at a time. Do not start the next phase until Adi says so.
@@ -24,7 +24,7 @@
 - Every reported number must come from a script in this repo that re-runs end to end. Fixed random seeds.
 - Model selection uses the checked dev subset (`data/dev_checked.csv`) once it exists. Silver-dev numbers are reported beside it, never used alone to choose.
 - Always report macro-F1 (`average="macro"`) and per-class P/R/F1 with `labels=` in taxonomy order.
-- Hosted LLMs: open-source models only, offline only (labelling/auditing), only data from this repo. Save raw LLM outputs to `results/llm_raw/`. Adi verifies every row of the checked set himself.
+- Hosted LLMs: open-source models only, offline only (labelling/auditing), only data from this repo. Save raw LLM outputs to `results/llm_raw/`. Adi verifies only the rows where models and silver labels disagree.
 - Final system must run on 4 CPU cores, 15 GB RAM, one message at a time.
 
 ## Latency measurement (use exactly this)

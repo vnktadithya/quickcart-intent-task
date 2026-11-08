@@ -183,7 +183,7 @@ The threshold t is chosen ONLY on train out-of-fold predictions (5-fold, seed 42
 
 **Limits.** Probes are few (60), written by me, with my own labels, and the out_of_scope train rows come from the same generator as dev/test, so real unseen traffic is likely harder than dev suggests. The other-company messages are inherently hard for a bag-of-words model; a small list of competitor names as a rule is a possible next step (not tried).
 
-**Where the AI was wrong.** Nothing wrong caught in this phase yet.
+**Where the AI was wrong.** In the summary message for this phase I said five of the eight missed novel out_of_scope probes were other companies' messages; counting the table gives three (swiggy, zomato, dominos). Caught while writing the final write-up; the write-up and this note use the correct count (fixing them would lift probe recall from 22/30 = 0.733 to 25/30 = 0.833).
 
 ## Phase 7 — Predict and benchmark (Phase 6, the optional label-cleaning step, was skipped on Adi's call)
 **What was done.**
